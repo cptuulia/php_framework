@@ -1,4 +1,4 @@
 [client]
 user = "root"
 password = "root"
-host = "test_db"
+host = "pwamanege_db"

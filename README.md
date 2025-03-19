@@ -6,6 +6,7 @@
 ###  Contents
 
 * [Introduction](#intro-section)
+* [Install](#install-section)
 * [Structure and code](#code-section)
 * [Endpoints](#endpoints-section)
 * [Facilities](#facilities-section)
@@ -37,6 +38,76 @@ This framework has been as a Word Press plugin originally on a php7 server on th
 a light framework, which I can self customize.
 This demo shows some features of the framework and there are only some essential files to show the php8 framework.
 
+
+
+<a name='install-section'></a>
+# Install 
+
+
+## Reinstall for a new project
+Replace 'php_framework' by your new project name in all files.
+
+```
+# if local mysql is running do 
+ sudo systemctl stop mysql
+
+
+After your host do
+``` 
+cp docker-compose.yml_ubunutu docker-compose.yml
+# or
+cp docker-compose.yml_mac docker-compose.yml
+```
+
+# In Ubuntu 24 you do docker compose up -d instead of docker-compose up -d
+
+Copy config file (on local you can use the sample file directly)
+```
+cp config/config_sample.php  config/config.php
+cp config/configTestSample.php ./config/configTest.php
+```
+#install database
+./scripts/ssh.sh 
+./scripts/resetDump.sh
+
+# install vendor files
+./scripts/ssh.sh 
+composer update
+
+```
+Create test databse
+
+```
+ ./scripts/mysql.sh
+
+DROP DATABASE IF EXISTS `test_db_name`;
+CREATE DATABASE  `test_db_name`;
+
+```
+
+
+Test
+```
+curl --location 'localhost:8000/api'
+{"message":"Hello world!"}
+```
+
+## Enable VS Code debugger
+
+./scripts/ssh.sh 
+# after your host
+cp debuggerConfig/VisualCode_Ubuntu.ini  /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# or
+cp debuggerConfig/VisualCode_Mac.ini  /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+```
+and restart php container
+
+After your host:
+```
+ cp .vscode/launch_Ubuntu.json  .vscode/launch.json
+ # or
+  cp .vscode/launch_Mac.json  .vscode/launch.json
+```
 
 <a name='code-section'></a>
 ## Structure and code

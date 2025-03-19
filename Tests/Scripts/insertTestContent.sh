@@ -1,1 +1,1 @@
-mysql --defaults-extra-file=/var/www/api_/config/mysq.cnf  test_db_name </var/www/api_/Tests/Scripts/sql/testContent.sql
+mysql --defaults-extra-file=/var/www/config/mysq.cnf -uroot -proot -h php_framework_mysql test_db_name </var/www/Tests/Scripts/sql/testContent.sql

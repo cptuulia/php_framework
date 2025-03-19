@@ -20,22 +20,20 @@ class TRanslationsTest extends BaseTest
         // Check by default language (Dutch)
         // Test 'default' translatons
         $translation = TranslationsService::_('test', ["@name" => "Nick", "@weather" => "Sunny"]);
-        $this->assertEquals("Heer weer is Nick. Het weer is Sunny.", $translation);
+        $this->assertEquals("Hallo Nick. Heer weer is Sunny.", $translation);
         // Test 'errors' translatons
-        $translation = TranslationsService::_('test', ["@name" => "Nick", "@weather" => "Sunny"], 'errors');
-        $this->assertEquals("Hallo Nick. Uw fout is  Sunny.", $translation);
+        $translation = TranslationsService::_('test', ["@name" => "Nick", "@error" => "Sunny"], 'errors');
+        $this->assertEquals("Hallo Nick. Uw fout is Sunny.", $translation);
 
+        
          // English translations
-        $translation::setlocale(ELocales::en_US);
+         TranslationsService::setlocale(ELocales::en_US);
         // Test 'default' translatons
         $translation = TranslationsService::_('test', ["@name" => "Nick", "@weather" => "Sunny"]);
         $this->assertEquals("Hi Nick. The weather is Sunny.", $translation);
         // Test 'errors' translatons
-        $translation = TranslationsService::_('test', ["@name" => "Nick", "@weather" => "Sunny"], 'errors');
+        $translation = TranslationsService::_('test', ["@name" => "Nick", "@error" => "Sunny"], 'errors');
         $this->assertEquals("Hi Nick. Your error  is Sunny.", $translation);
-
-
-     
     }
 
 }

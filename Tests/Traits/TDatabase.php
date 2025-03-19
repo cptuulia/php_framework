@@ -28,7 +28,6 @@ trait TDatabase
     private function initializeDatabase(): void
     {
         shell_exec(__DIR__ . '/../Scripts/initializeDatabase.sh');
-
         $this->db->executeQuery('SET foreign_key_checks = 0');
         $tables = $this->db->executeSelectQuery('show tables');
 

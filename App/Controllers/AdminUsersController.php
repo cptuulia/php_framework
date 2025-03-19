@@ -2,16 +2,17 @@
 
 namespace App\Controllers;
 
-/**
- * Manage the users and their authentication
- * 
- */
 
 use App\Services\AdminUsersService;
+use App\Plugins\Http\Response as Status;
+
+;
 
 class AdminUsersController extends BaseController
 {
+
     private AdminUsersService $adminUsersService;
+
 
     public function __construct(array $request = [])
     {
@@ -21,6 +22,7 @@ class AdminUsersController extends BaseController
 
     public function index(): array
     {
+
         $users = $this->adminUsersService->get();
 
         return $this->response(
@@ -46,11 +48,6 @@ class AdminUsersController extends BaseController
         );
     }
 
-    /**
-     * Insert user
-     *
-     * @return array
-     */
     public function store(): array
     {
         $errors = $this->validate();
@@ -59,19 +56,12 @@ class AdminUsersController extends BaseController
         }
 
         $response = $this->adminUsersService->store($this->request);
-        return $this->response(
-            [
+        return $this->response([
                 'message' => 'User register successfully.',
-                'data' => $response
-            ]
+                'data' => $response]
         );
     }
 
-    /**
-     * Update 
-     *
-     * @return array
-     */
     public function update(): array
     {
         $errors = $this->validate();
@@ -79,23 +69,15 @@ class AdminUsersController extends BaseController
             return $this->response(['errors' => $errors], self::$BadRequest);
         }
         $user = $this->adminUsersService->update($this->request);
-        return $this->response(
-            [
+        return $this->response([
                 'message' => 'update successfull.',
-                'data' => $user
-            ]
+                'data' => $user]
         );
     }
 
 
-    /**
-     * Login by password or by email link. This function also created the e-mail link if required
-     *
-     * @return array
-     */
     public function login(): array
     {
-        // login by email link
         if (isset($this->queryParams['emailToken'])) {
             $user = $this->adminUsersService->loginByToken($this->queryParams['emailToken']);
             if (!empty($user)) {
@@ -109,7 +91,6 @@ class AdminUsersController extends BaseController
             }
         }
 
-        // Genereate e-mail link
         if (isset($this->request['generateEmailToken'])) {
             $user = $this->adminUsersService->generateEmailLoginToken($this->request);
             if (!empty($user)) {
@@ -121,8 +102,6 @@ class AdminUsersController extends BaseController
                 return $this->response(['errors' => ['Incorrect email']], self::$Unauthorized);
             }
         }
-
-        //Login by password 
         $user = $this->adminUsersService->login($this->request);
         if (!empty($user)) {
             return $this->response([
@@ -131,17 +110,10 @@ class AdminUsersController extends BaseController
 
             ]);
         }
-
-
         $this->response(['errors' => ['Login incorrect']], self::$Unauthorized);
         return [];
     }
 
-    /**
-     * Logout
-     *
-     * @return array
-     */
     public function logout(): array
     {
         $user = $this->adminUsersService->logout($this->requestUriParam);
@@ -155,23 +127,14 @@ class AdminUsersController extends BaseController
         return [];
     }
 
-    /**
-     * Destroy
-     *
-     * @return void
-     */
     public function destroy()
     {
         $this->adminUsersService->delete($this->requestUriParam);
         return $this->response(['message' => 'User with id ' . $this->requestUriParam . ' is deleted.',]);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getValidationRules(): array
     {
-        $rules = [];
         $rules = [
             'name' => [
                 'label' => 'naam',

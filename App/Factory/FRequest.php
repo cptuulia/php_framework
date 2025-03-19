@@ -43,7 +43,7 @@ abstract class FRequest extends FBase
         if (str_starts_with($_SERVER['CONTENT_TYPE'], ERequestType::$FORM)) {
             return 'Formdata';
         }
-        
+        return 'Json';
         throw new \Exception("Invalid type given.");
     }
 }

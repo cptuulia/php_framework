@@ -35,7 +35,7 @@ class AdminUsersControllerTest extends BaseTest
         $response = $this->sendRequest(
             'POST',
             '/api/admin/users',
-            $params, self::$CONTENT_TYPE_JSON);
+            $params, self::$CONTENT_TYPE_JSON); 
         $this->assertEquals(Response\Ok::STATUS_CODE, $response['status']);
 
         //

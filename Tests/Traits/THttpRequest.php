@@ -68,6 +68,7 @@ trait THttpRequest
         ));
 
         $response = curl_exec($curl);
+       
         $info = curl_getinfo($curl);
         curl_close($curl);
 
