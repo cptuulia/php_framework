@@ -51,7 +51,7 @@ Replace 'php_framework' by your new project name in all files.
 ```
 # if local mysql is running do 
  sudo systemctl stop mysql
-
+```
 
 After your host do
 ``` 
@@ -60,23 +60,35 @@ cp docker-compose.yml_ubunutu docker-compose.yml
 cp docker-compose.yml_mac docker-compose.yml
 ```
 
-# In Ubuntu 24 you do docker compose up -d instead of docker-compose up -d
+Create containers
+```
+# Mac
+docker-compose up -d
+#Ubuntu
+compose up -d
+```
 
 Copy config file (on local you can use the sample file directly)
 ```
 cp config/config_sample.php  config/config.php
 cp config/configTestSample.php ./config/configTest.php
 ```
-#install database
+
+## install database
+```
 ./scripts/ssh.sh 
 ./scripts/resetDump.sh
+```
 
-# install vendor files
+## install vendor files
+
+```
 ./scripts/ssh.sh 
 composer update
 
 ```
-Create test databse
+
+## Create test database
 
 ```
  ./scripts/mysql.sh
@@ -87,14 +99,24 @@ CREATE DATABASE  `test_db_name`;
 ```
 
 
-Test
+## Test on host
 ```
 curl --location 'localhost:8000/api'
 {"message":"Hello world!"}
 ```
 
+## Test with phpunit
+```
+./scripts/ssh.sh 
+./scripts/phpunit.sh Tests/Feature/
+./scripts/phpunit.sh Tests/Integration/
+```
+
+
+
 ## Enable VS Code debugger
 
+```
 ./scripts/ssh.sh 
 # after your host
 cp debuggerConfig/VisualCode_Ubuntu.ini  /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -105,9 +127,9 @@ and restart php container
 
 After your host:
 ```
- cp .vscode/launch_Ubuntu.json  .vscode/launch.json
- # or
-  cp .vscode/launch_Mac.json  .vscode/launch.json
+cp .vscode/launch_Ubuntu.json  .vscode/launch.json
+# or
+cp .vscode/launch_Mac.json  .vscode/launch.json
 ```
 
 <a name='code-section'></a>

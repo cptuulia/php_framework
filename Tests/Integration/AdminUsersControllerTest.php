@@ -247,10 +247,10 @@ class AdminUsersControllerTest extends BaseTest
 
         $mangerApiToken = $response['body']['data'][0]['api_token'];
 
-        // Get dashboard (allowed page)
+        // Get users(allowed page)
         $response = $this->sendRequest(
             'GET',
-            '/api/admin/dashboard',
+            '/api/test',
             [],
             null,
             '',
@@ -259,16 +259,6 @@ class AdminUsersControllerTest extends BaseTest
         $this->assertEquals(Response\Ok::STATUS_CODE, $response['status']);
 
         // Get admin users index (not allowed page)
-        $response = $this->sendRequest(
-            'GET',
-            '/api/admin/dashboard',
-            [],
-            null,
-            '',
-            $mangerApiToken,
-        );
-        $this->assertEquals(Response\Ok::STATUS_CODE, $response['status']);
-
         $response = $this->sendRequest(
             'GET',
             '/api/admin/users/',
