@@ -261,9 +261,9 @@ class AdminUsersService extends BaseService
      * Show
      *
      * @param integer $id
-     * @return void
+     * @return array
      */
-    public function show(int $id)
+    public function show(int $id): array
     {
         return $this->model->get($id);
     }

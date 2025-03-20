@@ -11,9 +11,9 @@ class AdminUsers extends BaseModel
     protected $table = 'admin_users';
 
 
-    /** @var string */
+    /** @var int */
     protected int $id;
-    /** @var string */
+    /** @var int */
     protected int $adminRoleId;
     /** @var string */
     protected string $name;
@@ -23,15 +23,14 @@ class AdminUsers extends BaseModel
     protected string $password;
     /** @var string */
     protected string $apiToken;
-    /** @var string */
+    /** @var int */
     protected int $apiTokenExpires;
     /** @var string */
     protected string $createdAt;
     /** @var string */
     protected string $updatedAt;
     /** @var string */
-    /** @var string */
     protected string $emailLoginHash;
-    /** @var string */
+    /** @var int */
     protected int $emailLoginHashExpires;
 }

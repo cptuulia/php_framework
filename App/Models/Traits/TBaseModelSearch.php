@@ -12,7 +12,7 @@ trait TBaseModelSearch
      *
      * @param string $query     Current SQL
      * @param string $column    Column to filter
-     * @param [type] $value     Value to filter
+     * @param mixed $value     Value to filter
      * @return string
      */ 
     protected function equals(string $query, string $column, $value = null): string
@@ -29,7 +29,7 @@ trait TBaseModelSearch
      * 
      * @param string $query                Current SQL
      * @param array $wildCardOptions       See options in function BaseModel::get
-     * @param [type] $value
+     * @param mixed $value
      * @return string
      */
     protected function wildcard(string $query, $wildCardOptions, $value = null): string

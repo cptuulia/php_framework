@@ -138,11 +138,11 @@ trait TValidate
     /**
      * Sanitate the type
      *
-     * @param [type] $value
+     * @param mixed $value
      * @param string $type
      * @return boolean
      */
-    private function sanitate($value, string $type): bool
+    private function sanitate(mixed $value, string $type): bool
     {
         if (!$value) {
             return true;

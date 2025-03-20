@@ -10,11 +10,11 @@ trait TString
     /**
      * snake_to_camel => snakeToCamel
      *
-     * @param [type] $input
+     * @param mixed $input
      * @param boolean $startWithCapital
-     * @return void
+     * @return string
      */
-    function snakeToCamel($input, bool $startWithCapital = false)
+    function snakeToCamel($input, bool $startWithCapital = false) : string
     {
         $input = strtolower($input);
         $input = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $input))));
