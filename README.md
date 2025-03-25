@@ -132,6 +132,20 @@ cp .vscode/launch_Ubuntu.json  .vscode/launch.json
 cp .vscode/launch_Mac.json  .vscode/launch.json
 ```
 
+You can test by
+```
+vi public/index.php
+```
+and add
+```
+<?php
+$t = 23;
+for ($i = 0; $i < 10; $i++) {
+   var_dump($i);
+}
+phpinfo();
+```
+
 <a name='code-section'></a>
 ## Structure and code
 
