@@ -16,7 +16,13 @@ trait TString
      */
     function snakeToCamel($input, bool $startWithCapital = false) : string
     {
+        // In case this in to snake case don't convert
+        if (!is_numeric((strpos($input, "_")))) {
+            return $input;
+        }
+
         $input = strtolower($input);
+      
         $input = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $input))));
         if ($startWithCapital) {
             $input = ucfirst($input);
@@ -25,7 +31,7 @@ trait TString
     }
 
     /**
-     * Fulle name as string, includinf the dutch family name prefix
+     * Full name as string, including the dutch family name prefix
      *
      * @param array $params
      * @return string
