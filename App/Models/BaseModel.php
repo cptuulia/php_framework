@@ -113,6 +113,29 @@ abstract class BaseModel
     }
 
     /**
+     * Update to the array $columns the values of the model properties if they
+     * are set.
+     * 
+     */
+    private function updateModelProperties(array $columns): array
+    {
+        foreach (get_class_vars(get_called_class()) as $key => $value) {
+            if ($key != 'db' && $key != 'table') {
+
+                $keyCamel = $this->snakeToCamel($key);
+
+                if (isset($this->$key)) {
+
+                    unset($columns[$key]);
+                    unset($columns[$keyCamel]);
+                    $columns[$key] = $this->$key;
+                }
+            }
+        }
+        return $columns;
+    }
+
+    /**
      * Insert a row
      *  
      * @param array $columns    columns to insert, if this array has columns, which are not properties of the model
@@ -120,8 +143,11 @@ abstract class BaseModel
      * @param $filterColumns    if true, only items defined in the model properties are inserted
      * @return int|null         id of the inserted item
      */
-    public function insert(array $columns, bool $filterColumns = true): ?int
+    public function insert(array $columns = [], bool $filterColumns = true): ?int
     {
+     
+        $columns = $this->updateModelProperties($columns);
+     
         foreach (['created_at', 'updated_at'] as $timestamp) {
             if (property_exists(get_class($this), $this->snakeToCamel($timestamp))) {
                 $columns[$timestamp] = date("Y-m-d H:i:s");;
@@ -129,7 +155,6 @@ abstract class BaseModel
         }
 
         $columnsToInsert = ($filterColumns) ? $this->filterColumns($columns) : $columns;
-
         if (empty($columnsToInsert)) {
             return null;
         }
@@ -143,7 +168,6 @@ abstract class BaseModel
         $query = 'INSERT INTO ' . $this->table .
             ' (' . $columnNames . ') ' .
             ' VALUES(' . $values . ')';
-
         $this->db->executeQuery($query, array_values($columnsToInsert));
         return $this->db->getLastInsertedId();
     }
@@ -157,8 +181,10 @@ abstract class BaseModel
      *                              'id' => 8ß
      * @return int|null
      */
-    public function update(array $columns, $primaryKey = 'id', $filterColumns = true): ?int
+    public function update(array $columns= [], $primaryKey = 'id', $filterColumns = true): mixed
     {
+        $columns = $this->updateModelProperties($columns);
+   
         if (array_key_exists('created_at', $columns)) {
             unset($columns['created_at']);
         }
@@ -278,5 +304,22 @@ abstract class BaseModel
         }
 
         return $this->db->executeSelectQuery($query);
+    }
+
+    /**
+     * Set set model properties
+     * 
+     * If any of these are set , the given values are used instead if the possible 
+     * value in array $columns in the functions 'insert' and 'update'
+     */
+    public function setModelProperties(array $data): void
+    {
+        $modelProperties = array_keys(get_class_vars(get_called_class()));
+
+        foreach ($data as $key => $value) {
+            if (in_array($key, $modelProperties)) {
+                $this->$key = $value;
+            }
+        }
     }
 }
